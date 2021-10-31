@@ -46,13 +46,8 @@ return function (App $app) {
         $sql = "INSERT INTO products (name, price, qty) values (:name, :price, :qty) ";
         $stmt = $this->db->prepare($sql);
 
-        $data =[
-            'name' => $product['name'],
-            'price' => $product['price'],
-            'qty' => $product['qty']
-        ];
-        if ($stmt->execute($data)) {
-            return $response->withJson(['status' => 'created', 'data'=>$data], 201);
+        if ($stmt->execute($product)) {
+            return $response->withJson(['status' => 'created', 'data'=>$product], 201);
         }
 
         return $response->withJson(['status' => 'Bad Request'], 400);
