@@ -17,27 +17,21 @@ return function (App $app) {
     });
 
     // get All product
-    $app->get('/product/', function (Request $request, Response $respone ){
-        $sql = "SELECT  * FROM products";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        if ($result = $stmt->fetchAll()) {
-            return $respone->withJson(['status' => 'success', 'data' => $result], 200);
-        }
-        return $respone->withJson(['status' => 'Empty', 'data' => ''], 404); 
+    $app->get('/product/', function (Request $request, Response $response ) use ($container) {
+        /** @var ProductService $service */
+        $service = $container['ProductService'];
+        $product = $service->findAll();
+ 
+        return $response->withHeader("Content-Type", "application/json")->withStatus(200)->write(json_encode($product, JSON_PRETTY_PRINT));  
     });
 
     // get product by id
-    $app->get('/product/{id}', function(Request $request, Response $response, $args){
-        $id = $args["id"];
-        $sql = "SELECT * FROM products WHERE id = $id";
-
-        $stmt = $this->db->prepare($sql);
-        $stmt ->execute();
-        if ($result =$stmt->fetchAll()) {
-            return $response->withJson(['Status' => "success", 'data' => $result], 200);
-        }
-        return $response->withJson(['Status' => "Not Found", 'data' => ''], 404);       
+    $app->get('/product/{id}', function(Request $request, Response $response, $args)use ($container){
+        $id = $args['id'];
+        /** @var ProductService $service */
+        $service = $container['ProductService'];
+        $product = $service->findById($id);
+        return $response->withHeader("Content-Type", "application/json")->withStatus(200)->write(json_encode($product, JSON_PRETTY_PRINT));      
     });
 
     // create product
@@ -50,16 +44,17 @@ return function (App $app) {
     });
 
     // delete product by id
-    $app->delete('/product/delete/{id}', function (Request $request, Response $response, $args){
+    $app->delete('/product/delete/{id}', function (Request $request, Response $response, $args) use ($container){
         $id = $args['id'];
+        /** @var ProductService @service */
+        $service = $container['ProductService'];
+        $product = $service->deleteById($id);
+
         $sql = "DELETE FROM products where id = $id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
 
-        if ($stmt->fetchAll()){
-            return $response->withJson(['status' => 'deleted', 'data'=>''], 200);
-        }
+        return $response->withHeader("Content-Type", "application/json")->withStatus(200)->write(json_encode($product, JSON_PRETTY_PRINT));
 
-        return $response->withJson(['status' => 'Not Found', 'data'=>''], 404);
     });
 };

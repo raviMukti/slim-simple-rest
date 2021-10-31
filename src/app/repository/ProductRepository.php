@@ -42,21 +42,27 @@ class ProductRepository implements BaseRepository
 
     function delete(int $id)
     {
-        
+        $query = "DELETE FROM products WHERE id = $id ;";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetch();
     }
 
     function findAll()
     {
-        
+        $query = "SELECT * FROM products";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
 
     function findById(int $id)
     {
-        $query = "SELECT * FROM products WHERE id = :productId;";
+        $query = "SELECT * FROM products WHERE id = $id ;";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([
-            "productId" => $id
-        ]);
+        $stmt->execute();
         return $stmt->fetch();
     }
 }

@@ -6,6 +6,7 @@ use Api\repository\ProductRepository;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Slim\Container;
+use Slim\Http\Message;
 
 class ProductService
 {
@@ -25,7 +26,7 @@ class ProductService
         $rawProduct = array(
             "productName" => $productInfo["name"],
             "productPrice" => $productInfo["price"],
-            "productQuantity" => $productInfo["quantity"]
+            "productQuantity" => $productInfo["qty"]
         );
 
         try{
@@ -33,6 +34,43 @@ class ProductService
             return $productRepository->findById($id);
         }catch(Exception $e)
         {
+            return $e->getMessage();
+        }
+    }
+
+    function findById(int $id)
+    {
+        /** @var ProductRepository $productRepository */
+        $productRepository = $this->container->get('ProductRepository');
+
+        try {
+            return $productRepository->findById($id);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    
+
+    function deleteById(int $id)
+    {
+        /** @var ProductRepository $productRepository */
+        $productRepository = $this->container->get('ProductRepository');
+
+        try {
+            return $productRepository->delete($id);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    function findAll()
+    {
+        /** @var ProductRepository $productRepository */
+        $productRepository = $this->container->get('ProductRepository');
+
+        try {
+            return $productRepository->findAll();
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
