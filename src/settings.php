@@ -1,7 +1,8 @@
 <?php
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotEnv = \Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotEnv->safeLoad();
+
 return [
     'settings' => [
         'displayErrorDetails' => true, // set to false in production
@@ -20,11 +21,11 @@ return [
         ],
 
         'db' => [
-            'host' => $_ENV['DB_HOST'],
-            'user' => $_ENV['DB_USER'],
-            'pass' => $_ENV['DB_PASSWORD'],
-            'dbname' => $_ENV['DB_NAME'],
-            'driver' => $_ENV['DB_DRIVER']
+            'host' => $_ENV["DB_HOST"],
+            'user' => $_ENV["DB_USER"],
+            'pass' => $_ENV["DB_PASSWORD"],
+            'dbname' => $_ENV["DB_NAME"],
+            'driver' => $_ENV["DB_DRIVER"]
         ]
 
     ],

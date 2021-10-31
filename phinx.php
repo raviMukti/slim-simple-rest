@@ -1,5 +1,9 @@
 <?php
 
+use Dotenv\Dotenv;
+
+$dotEnv = Dotenv::createImmutable(__DIR__."/");
+$dotEnv->safeLoad();
 
 return
 [
@@ -20,11 +24,11 @@ return
             'charset' => 'utf8',
         ],
         'development' => [
-            'adapter' => 'pgsql',
-            'host' => 'localhost',
-            'name' => 'product-service',
-            'user' => 'postgres',
-            'pass' => '123321',
+            'adapter' => $_ENV["DB_DRIVER"],
+            'host' => $_ENV["DB_HOST"],
+            'name' => $_ENV["DB_NAME"],
+            'user' => $_ENV["DB_USER"],
+            'pass' => $_ENV["DB_PASSWORD"],
             'port' => '5432',
             'charset' => 'utf8',
         ],

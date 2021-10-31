@@ -1,5 +1,6 @@
 <?php
 
+use Api\service\ProductService;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -40,17 +41,12 @@ return function (App $app) {
     });
 
     // create product
-    $app->post('/product/', function (Request $request, Response $response){
-
-        $product =  $request->getParsedBody();
-        $sql = "INSERT INTO products (name, price, qty) values (:name, :price, :qty) ";
-        $stmt = $this->db->prepare($sql);
-
-        if ($stmt->execute($product)) {
-            return $response->withJson(['status' => 'created', 'data'=>$product], 201);
-        }
-
-        return $response->withJson(['status' => 'Bad Request'], 400);
+    $app->post('/product', function (Request $request, Response $response) use ($container) {
+        $reqBody = $request->getParsedBody();
+        /** @var ProductService $service */
+        $service = $container["ProductService"];
+        $product = $service->createProduct($reqBody);
+        return $response->withHeader("Content-Type", "application/json")->withStatus(201)->write(json_encode($product, JSON_PRETTY_PRINT));
     });
 
     // delete product by id
