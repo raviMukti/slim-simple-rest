@@ -17,7 +17,7 @@ return function (App $app) {
 
     // get All product
     $app->get('/product/', function (Request $request, Response $respone ){
-        $sql = "SELECT  * FROM product";
+        $sql = "SELECT  * FROM products";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         if ($result = $stmt->fetchAll()) {
@@ -29,7 +29,7 @@ return function (App $app) {
     // get product by id
     $app->get('/product/{id}', function(Request $request, Response $response, $args){
         $id = $args["id"];
-        $sql = "SELECT * FROM product WHERE id = $id";
+        $sql = "SELECT * FROM products WHERE id = $id";
 
         $stmt = $this->db->prepare($sql);
         $stmt ->execute();
@@ -43,13 +43,13 @@ return function (App $app) {
     $app->post('/product/', function (Request $request, Response $response){
 
         $product =  $request->getParsedBody();
-        $sql = "INSERT INTO product (name, price, qty) values (:name, :price, :qty) ";
+        $sql = "INSERT INTO products (name, price, qty) values (:name, :price, :qty) ";
         $stmt = $this->db->prepare($sql);
 
         $data =[
             'name' => $product['name'],
             'price' => $product['price'],
-            'qty' => $product['qty'],
+            'qty' => $product['qty']
         ];
         if ($stmt->execute($data)) {
             return $response->withJson(['status' => 'created', 'data'=>$data], 201);
@@ -61,7 +61,7 @@ return function (App $app) {
     // delete product by id
     $app->delete('/product/delete/{id}', function (Request $request, Response $response, $args){
         $id = $args['id'];
-        $sql = "DELETE FROM product where id = $id";
+        $sql = "DELETE FROM products where id = $id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
 
