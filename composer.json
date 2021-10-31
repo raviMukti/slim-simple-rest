@@ -22,6 +22,11 @@
         "phpunit/phpunit": ">=5.0",
         "robmorgan/phinx": "^0.12.9"
     },
+    "autoload": {
+        "psr-4": {
+            "Api\\" : "src/app/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"

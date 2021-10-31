@@ -1,5 +1,7 @@
 <?php
 
+use Api\repository\ProductRepository;
+use Api\service\ProductService;
 use Slim\App;
 
 return function (App $app) {
@@ -28,4 +30,13 @@ return function (App $app) {
         $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         return $conn;
     };
+
+    $container["ProductRepository"] = function ($c) {
+        return new ProductRepository($c["db"]);
+    };
+
+    $container["ProductService"] = function ($c) {
+        return new ProductService($c);
+    };
+
 };

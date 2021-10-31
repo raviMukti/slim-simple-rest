@@ -1,4 +1,6 @@
 /vendor/
-logs/*
+/logs/
 .env
 phinx.php
+.vscode
+.idea
