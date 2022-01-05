@@ -13,6 +13,5 @@
 - `composer install`
 - Copy .env.example to .env
 - Create DB and setup .env with your own-setup
-- Copy .phinx.php.example to phinx.php
 - `vendor/bin/phinx migrate -e development`
 - `composer start`
