@@ -1,4 +1,18 @@
-# slim-simple-rest
-Simple REST API with Slim 3
+# REST API Demo
+### Simple REST API
 
-Fitur 1
+#### This Project Build With :
+- Slim PHP 3.1
+- Phinx
+- DotEnv
+- PHPUnit
+- PostgreSQL
+
+#### How To Run :
+- `git clone this project`
+- `composer install`
+- Copy .env.example to .env
+- Create DB and setup .env with your own-setup
+- Copy .phinx.php.example to phinx.php
+- `vendor/bin/phinx migrate -e development`
+- `composer start`
